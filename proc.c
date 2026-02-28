@@ -88,6 +88,8 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
+  p->traced = 0;
+  p->syscall_count = 0;
 
   release(&ptable.lock);
 
@@ -199,6 +201,8 @@ fork(void)
   np->sz = curproc->sz;
   np->parent = curproc;
   *np->tf = *curproc->tf;
+  np->traced = 0;
+  np->syscall_count = 0;
 
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;

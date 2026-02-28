@@ -43,6 +43,23 @@ sys_getpid(void)
 }
 
 int
+sys_trace(void)
+{
+  int on;
+  struct proc *curproc = myproc();
+  
+  if(argint(0,&on) < 0)
+    return -1;
+
+  if(on)
+    curproc->traced = 1;
+  else
+    curproc->traced = 0;
+
+  return curproc->syscall_count;
+}
+
+int
 sys_sbrk(void)
 {
   int addr;
